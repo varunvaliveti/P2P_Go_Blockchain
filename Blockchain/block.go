@@ -1,10 +1,8 @@
-package main
+package blockchain
 
 import (
 	"bytes"
 	"crypto/sha256"
-	"encoding/hex"
-	"fmt"
 )
 
 type Block struct {
@@ -14,7 +12,7 @@ type Block struct {
 }
 
 type BlockChain struct {
-	blocks []*Block
+	Blocks []*Block
 }
 
 func (b *Block) DeriveHash() {
@@ -38,10 +36,10 @@ func CreateBlock(data string, prevHash []byte) *Block {
 }
 
 func (chain *BlockChain) AddBlock(data string) {
-	prevBlock := chain.blocks[len(chain.blocks)-1]
+	prevBlock := chain.Blocks[len(chain.Blocks)-1]
 	newBlock := CreateBlock(data, prevBlock.Hash)
 
-	chain.blocks = append(chain.blocks, newBlock)
+	chain.Blocks = append(chain.Blocks, newBlock)
 }
 
 func Genesis() *Block {
@@ -50,20 +48,6 @@ func Genesis() *Block {
 
 func InitBlockChain() *BlockChain {
 	return &BlockChain{
-		blocks: []*Block{Genesis()},
+		Blocks: []*Block{Genesis()},
 	}
-}
-
-func main() {
-	chain := InitBlockChain()
-	chain.AddBlock("First")
-	chain.AddBlock("Second")
-
-	for _, block := range chain.blocks {
-		// fmt.Println("Prev hash ", hex.EncodeToString(block.PrevHash))
-		fmt.Println("data in block ", string(block.Data))
-		fmt.Println("Hash: ", hex.EncodeToString(block.Hash))
-		fmt.Println()
-	}
-
 }
