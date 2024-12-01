@@ -1,21 +1,27 @@
 package main
 
 import (
-	"encoding/hex"
 	"fmt"
-	"github.com/varunvaliveti/P2P_Go_Blockchain"
+	"strconv"
+
+	"github.com/varunvaliveti/P2P_Go_Blockchain/Blockchain"
 )
 
 func main() {
-	chain := P2P_Go_Blockchain.InitBlockChain()
-	chain.AddBlock("First")
-	chain.AddBlock("Second")
+	chain := blockchain.InitBlockChain()
+	chain.AddBlock("First block")
+	chain.AddBlock("Second Block")
+	chain.AddBlock("Third Block")
 
-	for _, block := range chain.blocks {
-		// fmt.Println("Prev hash ", hex.EncodeToString(block.PrevHash))
-		fmt.Println("data in block ", string(block.Data))
-		fmt.Println("Hash: ", hex.EncodeToString(block.Hash))
-		fmt.Println()
+	for _, block := range chain.Blocks {
+
+		fmt.Printf("Previous hash: %x\n", block.PrevHash)
+		fmt.Printf("Data in previous block: %s\n", block.Data)
+		fmt.Printf("Hash: %x\n", block.Hash)
+
+		pow := blockchain.NewProof(block)
+		fmt.Printf("Proof of Work: %s\n\n", strconv.FormatBool(pow.Validate()))
+
 	}
 
 }
