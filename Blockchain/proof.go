@@ -22,7 +22,7 @@ import (
 // First few bytes must contains 0s
 // The # of 0's before the has is called as the difficulty
 
-const Difficulty = 22 // we make it static, but in real blockchain you have some sort of algorithm that increases difficulty overtime bc #1 you have more miners overtime
+const Difficulty = 18 // we make it static, but in real blockchain you have some sort of algorithm that increases difficulty overtime bc #1 you have more miners overtime
 //  #2 there is more computing power so you want the difficulty to be relatively the same.
 
 type ProofOfWork struct {
@@ -52,8 +52,6 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 		data := pow.InitData(nonce)
 		hash = sha256.Sum256(data)
 
-		fmt.Printf("\r%x", hash)
-		// here we are just settting the bytes into a big integer
 		intHash.SetBytes(hash[:])
 
 		// now that we hashed it we need to comapre this against our target
